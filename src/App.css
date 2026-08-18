@@ -1,0 +1,146 @@
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 50px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.logo {
+  margin: 0;
+  color: #47362b;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.restartButton {
+  padding: 10px 18px;
+  border: 1px solid #b7a89d;
+  border-radius: 999px;
+  color: #59483d;
+  background: transparent;
+  cursor: pointer;
+}
+
+.book {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 620px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #fffdf7;
+  box-shadow: 0 25px 70px rgba(69, 45, 30, 0.18);
+}
+
+.illustration {
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  font-size: clamp(5rem, 11vw, 9rem);
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(255, 250, 198, 0.9),
+      transparent 32%
+    ),
+    linear-gradient(145deg, #9bc17c, #40705b);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px, 7vw, 80px);
+}
+
+.storyName {
+  margin: 0 0 12px;
+  color: #b85436;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #33251d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  line-height: 1;
+}
+
+.storyText {
+  margin: 28px 0 38px;
+  color: #6f6056;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+  line-height: 1.75;
+}
+
+.choices {
+  display: grid;
+  gap: 12px;
+}
+
+.choices button,
+.playAgainButton {
+  min-height: 50px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 14px;
+  color: white;
+  background: #40664f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
+}
+
+.choices button:hover,
+.playAgainButton:hover {
+  transform: translateY(-2px);
+  background: #31513e;
+}
+
+.backButton {
+  align-self: flex-start;
+  margin-top: 26px;
+  padding: 8px 0;
+  border: 0;
+  color: #8a7467;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.backButton:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
+@media (max-width: 750px) {
+  .book {
+    grid-template-columns: 1fr;
+  }
+
+  .illustration {
+    min-height: 270px;
+  }
+
+  .page {
+    padding: 42px 28px;
+  }
+}
