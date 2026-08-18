@@ -1,220 +1,171 @@
 import { useState } from "react";
+import coverImage from "./assets/lola-rosy-cover.png";
+import ThreeLittlePigs from "./components/ThreeLittlePigs";
 import "./App.css";
 
-type Choice = { text: string; nextScene: string;};
+export type Language = "es" | "en";
 
-type Scene = {id: string; title: string; text: string; illustration: string; choices: Choice[];};
+type Screen = "cover" | "stories" | "threeLittlePigs";
 
-const story: Scene[] = [
-  {
-    id: "inicio",
-    title: "Los tres cerditos",
-    text: "Había una vez tres cerditos hermanos que decidieron construir cada uno su propia casa.",
-    illustration: "🐷 🐷 🐷",
-    choices: [
-      {
-        text: "Comenzar la historia",
-        nextScene: "casas",
-      },
-    ],
+const uiText = {
+  es: {
+    coverEyebrow: "Historias para compartir",
+    coverTitle: "Lola Rosy,",
+    coverTitleAccent: "cuentos",
+    coverDescription:
+      "Un rincón lleno de aventuras, decisiones y personajes inolvidables.",
+    chooseStory: "Elegir cuento",
+    cover: "Portada",
+    libraryTitle: "Elegí un cuento",
+    libraryDescription:
+      "Seleccioná una historia para comenzar la aventura.",
+    category: "Cuento interactivo",
+    storyTitle: "Los tres cerditos",
+    storyDescription:
+      "Acompañá a los tres hermanos y ayudalos a tomar decisiones cuando aparezca el lobo.",
+    readStory: "Leer cuento",
+    language: "Idioma",
   },
-  {
-    id: "casas",
-    title: "Tres casas diferentes",
-    text: "El primer cerdito construyó una casa de paja. El segundo eligió madera y el tercero trabajó con ladrillos.",
-    illustration: "🌾 🪵 🧱",
-    choices: [
-      {
-        text: "Continuar",
-        nextScene: "lobo",
-      },
-    ],
+  en: {
+    coverEyebrow: "Stories to share",
+    coverTitle: "Lola Rosy,",
+    coverTitleAccent: "stories",
+    coverDescription:
+      "A special place filled with adventures, choices and unforgettable characters.",
+    chooseStory: "Choose a story",
+    cover: "Home",
+    libraryTitle: "Choose a story",
+    libraryDescription:
+      "Select a story and begin the adventure.",
+    category: "Interactive story",
+    storyTitle: "The Three Little Pigs",
+    storyDescription:
+      "Join the three brothers and help them make decisions when the wolf appears.",
+    readStory: "Read story",
+    language: "Language",
   },
-  {
-    id: "lobo",
-    title: "El lobo aparece",
-    text: "Mientras los cerditos descansaban, un lobo hambriento llegó al bosque y encontró la casa de paja.",
-    illustration: "🐺",
-    choices: [
-      {
-        text: "Avisar al cerdito",
-        nextScene: "advertencia",
-      },
-      {
-        text: "Esconderse y observar",
-        nextScene: "casaPaja",
-      },
-    ],
-  },
-  {
-    id: "advertencia",
-    title: "¡Cuidado, viene el lobo!",
-    text: "Gracias a tu aviso, el cerdito salió rápidamente y corrió hacia la casa de madera de su hermano.",
-    illustration: "🐷💨",
-    choices: [
-      {
-        text: "Seguir a los cerditos",
-        nextScene: "casaMadera",
-      },
-    ],
-  },
-  {
-    id: "casaPaja",
-    title: "La casa de paja",
-    text: "El lobo sopló con todas sus fuerzas. La casa de paja salió volando y el cerdito escapó hacia la casa de madera.",
-    illustration: "🌬️🌾",
-    choices: [
-      {
-        text: "Continuar",
-        nextScene: "casaMadera",
-      },
-    ],
-  },
-  {
-    id: "casaMadera",
-    title: "La casa de madera",
-    text: "Los dos cerditos se refugiaron dentro de la casa. El lobo volvió a respirar profundamente y se preparó para soplar.",
-    illustration: "🐷🏠🐷",
-    choices: [
-      {
-        text: "Ayudarlos a reforzar la puerta",
-        nextScene: "refuerzo",
-      },
-      {
-        text: "Decirles que corran a la casa de ladrillos",
-        nextScene: "ladrillos",
-      },
-    ],
-  },
-  {
-    id: "refuerzo",
-    title: "Una buena idea",
-    text: "Reforzaron la puerta, pero el lobo sopló tan fuerte que toda la casa comenzó a temblar. Era momento de escapar.",
-    illustration: "🚪🔨",
-    choices: [
-      {
-        text: "Correr a la casa de ladrillos",
-        nextScene: "ladrillos",
-      },
-    ],
-  },
-  {
-    id: "ladrillos",
-    title: "La casa más fuerte",
-    text: "Los tres hermanos se reunieron en la casa de ladrillos. El lobo sopló una y otra vez, pero no consiguió derribarla.",
-    illustration: "🐷🐷🐷 🧱",
-    choices: [
-      {
-        text: "Ver el final",
-        nextScene: "final",
-      },
-    ],
-  },
-  {
-    id: "final",
-    title: "Juntos estaban seguros",
-    text: "El lobo se marchó cansado y los tres cerditos comprendieron que trabajar con paciencia y ayudarse era la mejor decisión.",
-    illustration: "🎉🐷🏠",
-    choices: [],
-  },
-];
+};
 
 function App() {
-  const [currentSceneId, setCurrentSceneId] = useState("inicio");
-  const [history, setHistory] = useState<string[]>([]);
+  const [screen, setScreen] = useState<Screen>("cover");
+  const [language, setLanguage] = useState<Language>("es");
 
-  const currentScene = story.find(
-    (scene) => scene.id === currentSceneId,
+  const text = uiText[language];
+
+  const languageSelector = (
+    <label className="globalLanguageSelector">
+      <span>{text.language}</span>
+
+      <select
+        value={language}
+        onChange={(event) =>
+          setLanguage(event.target.value as Language)
+        }
+        aria-label={text.language}
+      >
+        <option value="es">🇦🇷 Español</option>
+        <option value="en">🇬🇧 English</option>
+      </select>
+    </label>
   );
 
-  if (!currentScene) {
-    return <p>No se encontró esta parte de la historia.</p>;
+  if (screen === "threeLittlePigs") {
+    return (
+      <ThreeLittlePigs
+        language={language}
+        setLanguage={setLanguage}
+        onExit={() => setScreen("stories")}
+      />
+    );
   }
 
-  const selectChoice = (nextScene: string) => {
-    setHistory((previousHistory) => [
-      ...previousHistory,
-      currentSceneId,
-    ]);
+  if (screen === "stories") {
+    return (
+      <main className="library">
+        <header className="libraryTopbar">
+          <button
+            className="libraryButton"
+            onClick={() => setScreen("cover")}
+            type="button"
+          >
+            ← {text.cover}
+          </button>
 
-    setCurrentSceneId(nextScene);
-  };
+          {languageSelector}
+        </header>
 
-  const goBack = () => {
-    const previousScene = history.at(-1);
+        <section className="libraryIntroduction">
+          <h1>{text.libraryTitle}</h1>
+          <p>{text.libraryDescription}</p>
+        </section>
 
-    if (!previousScene) return;
+        <section className="storyGrid">
+          <article className="storyCard">
+            <div className="storyCardImage">
+              <span aria-hidden="true">🐷 🐷 🐷</span>
+            </div>
 
-    setCurrentSceneId(previousScene);
-    setHistory((previousHistory) =>
-      previousHistory.slice(0, -1),
-    );
-  };
+            <div className="storyCardContent">
+              <p className="storyCategory">
+                {text.category}
+              </p>
 
-  const restartStory = () => {
-    setCurrentSceneId("inicio");
-    setHistory([]);
-  };
+              <h2>{text.storyTitle}</h2>
 
-  return (
-    <main className="app">
-      <header className="header">
-        <p className="logo">📖 InteractiveBook</p>
+              <p>{text.storyDescription}</p>
 
-        <button
-          className="restartButton"
-          onClick={restartStory}
-          type="button"
-        >
-          Reiniciar
-        </button>
-      </header>
-
-      <section className="book">
-        <div className="illustration">
-          {currentScene.illustration}
-        </div>
-
-        <div className="page">
-          <p className="storyName">Los tres cerditos</p>
-
-          <h1>{currentScene.title}</h1>
-
-          <p className="storyText">{currentScene.text}</p>
-
-          <div className="choices">
-            {currentScene.choices.map((choice) => (
               <button
-                key={choice.text}
                 onClick={() =>
-                  selectChoice(choice.nextScene)
+                  setScreen("threeLittlePigs")
                 }
                 type="button"
               >
-                {choice.text}
+                {text.readStory}
               </button>
-            ))}
-          </div>
+            </div>
+          </article>
+        </section>
+      </main>
+    );
+  }
 
-          {currentScene.choices.length === 0 && (
-            <button
-              className="playAgainButton"
-              onClick={restartStory}
-              type="button"
-            >
-              Leer nuevamente
-            </button>
-          )}
+  return (
+    <main className="cover">
+      <img
+        className="coverImage"
+        src={coverImage}
+        alt="Lola Rosy leyendo un cuento a los niños"
+      />
 
-          <button
-            className="backButton"
-            onClick={goBack}
-            disabled={history.length === 0}
-            type="button"
-          >
-            ← Volver
-          </button>
-        </div>
+      <div className="coverShade" />
+
+      <header className="coverTopbar">
+        <p className="coverBrand">📖 Lola Rosy</p>
+        {languageSelector}
+      </header>
+
+      <section className="coverContent">
+        <p className="coverEyebrow">
+          {text.coverEyebrow}
+        </p>
+
+        <h1>
+          {text.coverTitle}
+          <span>{text.coverTitleAccent}</span>
+        </h1>
+
+        <p className="coverDescription">
+          {text.coverDescription}
+        </p>
+
+        <button
+          className="chooseStoryButton"
+          onClick={() => setScreen("stories")}
+          type="button"
+        >
+          {text.chooseStory}
+          <span aria-hidden="true">→</span>
+        </button>
       </section>
     </main>
   );
