@@ -130,6 +130,313 @@ h1 {
   cursor: default;
   opacity: 0.3;
 }
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.languageSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #59483d;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.languageSelector select {
+  padding: 9px 12px;
+  border: 1px solid #b7a89d;
+  border-radius: 12px;
+  color: #47362b;
+  background: #fffdf7;
+  font: inherit;
+  cursor: pointer;
+}
+
+.languageSelector select:focus {
+  outline: 3px solid rgba(184, 84, 54, 0.25);
+  border-color: #b85436;
+}
+.cover {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  color: white;
+  background: #241812;
+}
+
+.coverImage {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 68%;
+  height: 100%;
+  object-fit: contain;
+  object-position: right center;
+}
+
+.coverShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #241812 0%,
+      rgba(36, 24, 18, 0.96) 30%,
+      rgba(36, 24, 18, 0.72) 48%,
+      rgba(36, 24, 18, 0.08) 78%
+    );
+  pointer-events: none;
+}
+
+.coverTopbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-top: 28px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coverBrand {
+  margin: 0;
+  color: #fff8eb;
+  font-weight: 800;
+}
+
+.coverContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(1180px, calc(100% - 48px));
+  min-height: calc(100vh - 70px);
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.coverEyebrow {
+  margin: 0 0 18px;
+  color: #f0c77e;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.coverContent h1 {
+  max-width: 600px;
+  margin: 0;
+  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+}
+
+.coverContent h1 span {
+  display: block;
+  color: #f0c77e;
+  font-style: italic;
+}
+
+.coverDescription {
+  max-width: 450px;
+  margin: 30px 0 38px;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+
+.globalLanguageSelector {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.globalLanguageSelector select {
+  padding: 10px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 12px;
+  color: #39291f;
+  background: #fffdf7;
+  font: inherit;
+  cursor: pointer;
+}
+
+.chooseStoryButton {
+  display: flex;
+  min-height: 56px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  align-items: center;
+  gap: 26px;
+  color: #39291f;
+  background: #f0c77e;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
+}
+
+.chooseStoryButton:hover {
+  transform: translateY(-3px);
+  background: #ffda94;
+}
+
+.library {
+  width: min(1100px, calc(100% - 40px));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 42px 0;
+}
+
+.libraryHeader {
+  margin-bottom: 42px;
+}
+
+.libraryHeader h1 {
+  margin: 36px 0 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.7rem, 7vw, 5rem);
+}
+
+.libraryHeader p {
+  color: #75655a;
+  font-size: 1.05rem;
+}
+
+.libraryButton {
+  padding: 10px 16px;
+  border: 1px solid #b7a89d;
+  border-radius: 999px;
+  color: #59483d;
+  background: #fffdf7;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 290px), 340px)
+  );
+  gap: 28px;
+}
+
+.storyCard {
+  overflow: hidden;
+  border: 1px solid rgba(93, 62, 43, 0.16);
+  border-radius: 24px;
+  background: #fffdf7;
+  box-shadow: 0 15px 45px rgba(69, 45, 30, 0.12);
+}
+
+.storyCardImage {
+  display: grid;
+  min-height: 220px;
+  place-items: center;
+  font-size: 4rem;
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      #fff9c9,
+      transparent 35%
+    ),
+    linear-gradient(145deg, #9bc17c, #40705b);
+}
+
+.storyCardContent {
+  padding: 26px;
+}
+
+.storyCategory {
+  margin: 0 0 8px;
+  color: #b85436;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.storyCard h2 {
+  margin: 0 0 12px;
+  color: #33251d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+}
+
+.storyCardContent > p:not(.storyCategory) {
+  min-height: 78px;
+  color: #75655a;
+  line-height: 1.55;
+}
+
+.storyCardContent button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 14px;
+  color: white;
+  background: #40664f;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  .coverImage {
+    object-position: 61% center;
+  }
+
+  .coverOverlay {
+    background: linear-gradient(
+      0deg,
+      rgba(30, 18, 12, 0.94) 0%,
+      rgba(30, 18, 12, 0.58) 55%,
+      rgba(30, 18, 12, 0.12) 100%
+    );
+  }
+
+  .coverContent {
+    justify-content: flex-end;
+    padding-bottom: 60px;
+  }
+
+  .coverContent h1 {
+    font-size: clamp(3.6rem, 18vw, 5.5rem);
+  }
+}
+@media (max-width: 600px) {
+  .header {
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .languageSelector span {
+    display: none;
+  }
+}
 
 @media (max-width: 750px) {
   .book {
