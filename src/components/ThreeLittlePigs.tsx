@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "../App.css";
 import type { Language } from "../App";
+import image01 from "../assets/3pigs001.png";
+import video02 from "../assets/3pigs002.mp4";
+import video03 from "../assets/3pigs003.mp4";
+import video05 from "../assets/3pigs005.mp4";
 
 type Translation = { title: string; text: string;};
 type Choice = { text: Record<Language, string>; nextScene: string;};
@@ -8,6 +12,7 @@ type Scene = {
   id: string;
   content: Record<Language, Translation>;
   illustration: string;
+  mediaType?: "emoji" | "image" | "video";
   choices: Choice[];
 };
 
@@ -39,7 +44,8 @@ const interfaceText = {
 const story: Scene[] = [
   {
     id: "inicio",
-    illustration: "🐷 🐷 🐷",
+    illustration: image01,
+    mediaType: "image",
     content: {
       es: {
         title: "Los tres cerditos",
@@ -62,7 +68,8 @@ const story: Scene[] = [
   },
   {
     id: "casas",
-    illustration: "🌾 🪵 🧱",
+    illustration: video02,
+    mediaType: "video",
     content: {
       es: {
         title: "Tres casas diferentes",
@@ -85,7 +92,8 @@ const story: Scene[] = [
   },
   {
     id: "lobo",
-    illustration: "🐺",
+    illustration: video03,
+    mediaType: "video",
     content: {
       es: {
         title: "El lobo aparece",
@@ -138,7 +146,8 @@ const story: Scene[] = [
   },
   {
     id: "casaPaja",
-    illustration: "🌬️🌾",
+    illustration: video05,
+    mediaType: "video",
     content: {
       es: {
         title: "La casa de paja",
@@ -297,84 +306,64 @@ function ThreeLittlePigs({language, setLanguage, onExit,}: ThreeLittlePigsProps)
 
   return (
     <main className="app">
- <header className="header">
-  <button
-    className="libraryButton"
-    onClick={onExit}
-    type="button"
-  >
-    ← {language === "es" ? "Cuentos" : "Stories"}
-  </button>
+    <header className="header">
+      <button className="libraryButton" onClick={onExit} type="button" >
+        ← {language === "es" ? "Cuentos" : "Stories"}
+      </button>
 
   <div className="headerActions">
     <label className="languageSelector">
-      <span>{labels.language}</span>
 
-      <select
-        value={language}
-        onChange={(event) =>
-          setLanguage(event.target.value as Language)
-        }
-      >
+      <span>{labels.language}</span>
+      <select value={language} onChange={(event) => setLanguage(event.target.value as Language)}>
         <option value="es">🇦🇷 Español</option>
         <option value="en">🇬🇧 English</option>
       </select>
+
     </label>
 
-    <button
-      className="restartButton"
-      onClick={restartStory}
-      type="button"
-    >
-      {labels.restart}
-    </button>
+    <button className="restartButton" onClick={restartStory} type="button">{labels.restart}</button>
+  
   </div>
 </header>
-
       <section className="book">
         <div className="illustration">
-          {currentScene.illustration}
-        </div>
+        {currentScene.mediaType === "video" ? (
+          <video className="storyMedia" src={currentScene.illustration} autoPlay loop muted playsInline
+            aria-label={currentContent.title}
+          />
+        ) : currentScene.mediaType === "image" ? (
+          <img className="storyMedia" src={currentScene.illustration} alt={currentContent.title}/>) : (
+          <span className="storyEmoji">
+            {currentScene.illustration}
+          </span>
+        )}
+      </div>
 
         <div className="page">
           <p className="storyName">{labels.storyName}</p>
-
           <h1>{currentContent.title}</h1>
-
           <p className="storyText">
             {currentContent.text}
           </p>
 
           <div className="choices">
             {currentScene.choices.map((choice) => (
-              <button
-                key={choice.nextScene}
-                onClick={() =>
-                  selectChoice(choice.nextScene)
-                }
-                type="button"
-              >
+              <button key={choice.nextScene} onClick={() => selectChoice(choice.nextScene)}
+                type="button">
                 {choice.text[language]}
               </button>
             ))}
           </div>
 
           {currentScene.choices.length === 0 && (
-            <button
-              className="playAgainButton"
-              onClick={restartStory}
-              type="button"
-            >
+            <button className="playAgainButton" onClick={restartStory} type="button">
               {labels.readAgain}
             </button>
           )}
 
-          <button
-            className="backButton"
-            onClick={goBack}
-            disabled={history.length === 0}
-            type="button"
-          >
+          <button className="backButton" onClick={goBack} disabled={history.length === 0}
+           type="button">
             {labels.back}
           </button>
         </div>

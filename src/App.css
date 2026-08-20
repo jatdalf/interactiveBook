@@ -43,19 +43,36 @@
 
 .illustration {
   display: grid;
+  min-width: 0;
+  min-height: 0;
+   overflow: hidden;
   place-items: center;
   padding: 30px;
   font-size: clamp(5rem, 11vw, 9rem);
   text-align: center;
-  background:
-    radial-gradient(
-      circle at 25% 20%,
-      rgba(255, 250, 198, 0.9),
-      transparent 32%
-    ),
+  background: radial-gradient(circle at 25% 20%, rgba(255, 250, 198, 0.9), transparent 32%),
     linear-gradient(145deg, #9bc17c, #40705b);
 }
+.storyEmoji {
+  font-size: clamp(5rem, 11vw, 9rem);
+  text-align: center;
+  filter: drop-shadow(0 18px 16px rgba(24, 41, 31, 0.25));
+}
 
+.storyVideo {
+  display: block;
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+}
+.storyMedia {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+}
 .page {
   display: flex;
   flex-direction: column;
@@ -180,14 +197,8 @@ h1 {
 .coverShade {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      #241812 0%,
-      rgba(36, 24, 18, 0.96) 30%,
-      rgba(36, 24, 18, 0.72) 48%,
-      rgba(36, 24, 18, 0.08) 78%
-    );
+  background: linear-gradient(90deg, #241812 0%, rgba(36, 24, 18, 0.96) 30%,
+      rgba(36, 24, 18, 0.72) 48%, rgba(36, 24, 18, 0.08) 78%);
   pointer-events: none;
 }
 
@@ -286,9 +297,7 @@ h1 {
   font: inherit;
   font-weight: 800;
   cursor: pointer;
-  transition:
-    transform 0.2s,
-    background-color 0.2s;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .chooseStoryButton:hover {
@@ -331,10 +340,7 @@ h1 {
 
 .storyGrid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(100%, 290px), 340px)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 340px));
   gap: 28px;
 }
 
@@ -351,12 +357,7 @@ h1 {
   min-height: 220px;
   place-items: center;
   font-size: 4rem;
-  background:
-    radial-gradient(
-      circle at 25% 20%,
-      #fff9c9,
-      transparent 35%
-    ),
+  background: radial-gradient(circle at 25% 20%, #fff9c9, transparent 35%),
     linear-gradient(145deg, #9bc17c, #40705b);
 }
 
@@ -405,12 +406,8 @@ h1 {
   }
 
   .coverOverlay {
-    background: linear-gradient(
-      0deg,
-      rgba(30, 18, 12, 0.94) 0%,
-      rgba(30, 18, 12, 0.58) 55%,
-      rgba(30, 18, 12, 0.12) 100%
-    );
+    background: linear-gradient(0deg,rgba(30, 18, 12, 0.94) 0%, rgba(30, 18, 12, 0.58) 55%,
+      rgba(30, 18, 12, 0.12) 100%);
   }
 
   .coverContent {
