@@ -2,6 +2,7 @@ import { useState } from "react";
 import coverImage from "./assets/lola-rosy-cover.png";
 import ThreeLittlePigs from "./components/ThreeLittlePigs";
 import "./App.css";
+import ThreePigsVideo from "./assets/3pigs002.mp4"
 
 export type Language = "es" | "en";
 
@@ -102,7 +103,7 @@ function App() {
         <section className="storyGrid">
           <article className="storyCard">
             <div className="storyCardImage">
-              <span aria-hidden="true">🐷 🐷 🐷</span>
+              <video className="storyChoose" src={ThreePigsVideo} autoPlay loop muted playsInline/>
             </div>
 
             <div className="storyCardContent">

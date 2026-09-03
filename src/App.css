@@ -73,6 +73,12 @@
   min-height: 0;
   object-fit: contain;
 }
+.storyChoose{
+  display: block;
+  width: 80%;
+  height: 90%;
+  object-fit: contain;  
+}
 .page {
   display: flex;
   flex-direction: column;
@@ -398,6 +404,42 @@ h1 {
   font: inherit;
   font-weight: 750;
   cursor: pointer;
+}
+.narrationButton {
+  display: inline-flex;
+  align-self: flex-start;
+  min-height: 44px;
+  margin: -18px 0 30px;
+  padding: 10px 16px;
+  border: 1px solid rgba(64, 102, 79, 0.28);
+  border-radius: 999px;
+  align-items: center;
+  gap: 9px;
+  color: #40664f;
+  background: #f4f0e5;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.narrationButton:hover {
+  transform: translateY(-2px);
+  background: #e8eddf;
+}
+
+.narrationButtonActive {
+  color: white;
+  background: #b85436;
+  border-color: #b85436;
+}
+
+.narrationButtonActive:hover {
+  background: #9c432b;
 }
 
 @media (max-width: 650px) {

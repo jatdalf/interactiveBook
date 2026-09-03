@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../App.css";
 import type { Language } from "../App";
 import image01 from "../assets/3pigs001.png";
 import video02 from "../assets/3pigs002.mp4";
 import video03 from "../assets/3pigs003.mp4";
 import video05 from "../assets/3pigs005.mp4";
+import video06 from "../assets/3pigs006.mp4";
+import video07 from "../assets/3pigs007.mp4";
+
 
 type Translation = { title: string; text: string;};
 type Choice = { text: Record<Language, string>; nextScene: string;};
@@ -30,6 +33,8 @@ const interfaceText = {
     back: "← Volver",
     readAgain: "Leer nuevamente",
     sceneNotFound: "No se encontró esta parte de la historia.",
+    listen: "Escuchar el cuento",
+    stopListening: "Detener narración",
   },
   en: {
     storyName: "The Three Little Pigs",
@@ -38,6 +43,8 @@ const interfaceText = {
     back: "← Back",
     readAgain: "Read again",
     sceneNotFound: "This part of the story could not be found.",
+    listen: "Listen to the story",
+    stopListening: "Stop narration",
   },
 };
 
@@ -123,7 +130,8 @@ const story: Scene[] = [
   },
   {
     id: "advertencia",
-    illustration: "🐷💨",
+    illustration: video06,
+    mediaType: "video",
     content: {
       es: {
         title: "¡Cuidado, viene el lobo!",
@@ -170,7 +178,8 @@ const story: Scene[] = [
   },
   {
     id: "casaMadera",
-    illustration: "🐷🏠🐷",
+    illustration: video07,
+    mediaType: "video",
     content: {
       es: {
         title: "La casa de madera",
@@ -262,47 +271,67 @@ const story: Scene[] = [
 ];
 
 function ThreeLittlePigs({language, setLanguage, onExit,}: ThreeLittlePigsProps) {
-
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [currentSceneId, setCurrentSceneId] = useState("inicio");
   const [history, setHistory] = useState<string[]>([]);
-
   const labels = interfaceText[language];
-
-  const currentScene = story.find(
-    (scene) => scene.id === currentSceneId,
-  );
+  const currentScene = story.find((scene) => scene.id === currentSceneId,);
 
   if (!currentScene) {
     return <p>{labels.sceneNotFound}</p>;
   }
-
   const currentContent = currentScene.content[language];
+  const toggleNarration = () => {
+    if (!("speechSynthesis" in window)) {
+      alert(language === "es" ? "Este navegador no permite reproducir narraciones." : "This browser does not support narration.",);
+      return;
+    }
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const narration = new SpeechSynthesisUtterance(`${currentContent.title}. ${currentContent.text}`,);
+    narration.lang = language === "es" ? "es-AR" : "en-US";
+    narration.rate = 0.85;
+    narration.pitch = 1.05;
+    narration.volume = 1;
+
+    const availableVoices = window.speechSynthesis.getVoices();
+    const preferredVoice = availableVoices.find((voice) =>
+      voice.lang.toLowerCase().startsWith(language === "es" ? "es" : "en"),);
+    if (preferredVoice) {
+      narration.voice = preferredVoice;
+    }
+    narration.onstart = () => {setIsSpeaking(true);};
+    narration.onend = () => {setIsSpeaking(false);};
+    narration.onerror = () => {setIsSpeaking(false);};
+    window.speechSynthesis.speak(narration);
+  };
 
   const selectChoice = (nextScene: string) => {
-    setHistory((previousHistory) => [
-      ...previousHistory,
-      currentSceneId,
-    ]);
-
+    setHistory((previousHistory) => [...previousHistory, currentSceneId,]);
     setCurrentSceneId(nextScene);
   };
 
   const goBack = () => {
     const previousScene = history[history.length - 1];
-
     if (!previousScene) return;
-
     setCurrentSceneId(previousScene);
-
-    setHistory((previousHistory) =>
-      previousHistory.slice(0, -1),
-    );
+    setHistory((previousHistory) => previousHistory.slice(0, -1),);
   };
 
   const restartStory = () => {
     setCurrentSceneId("inicio");
     setHistory([]);
   };
+  
+  useEffect(() => {
+    window.speechSynthesis?.cancel();
+    setIsSpeaking(false);
+    return () => {window.speechSynthesis?.cancel();};
+  }, [currentSceneId, language]);
 
   return (
     <main className="app">
@@ -343,9 +372,12 @@ function ThreeLittlePigs({language, setLanguage, onExit,}: ThreeLittlePigsProps)
         <div className="page">
           <p className="storyName">{labels.storyName}</p>
           <h1>{currentContent.title}</h1>
-          <p className="storyText">
-            {currentContent.text}
-          </p>
+          <p className="storyText">{currentContent.text}</p>
+          <button className={`narrationButton ${isSpeaking ? "narrationButtonActive" : ""}`}
+            onClick={toggleNarration} type="button" aria-label={isSpeaking ? labels.stopListening : labels.listen}>
+            <span aria-hidden="true"> {isSpeaking ? "⏹️" : "🔊"} </span>
+            {isSpeaking ? labels.stopListening : labels.listen}
+          </button>
 
           <div className="choices">
             {currentScene.choices.map((choice) => (
